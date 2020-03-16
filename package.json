@@ -2,7 +2,7 @@
 	"name": "translate",
 	"displayName": "translate",
 	"description": "",
-	"publisher":"yyh",
+	"publisher": "yyh",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.42.0"
@@ -15,21 +15,6 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"configuration": {
-			"title": "translate",
-			"properties": {
-				"translate.type": {
-					"type": "string",
-					"enum": [
-						"google",
-						"youdao",
-						"baidu"
-					],
-					"default": "baidu",
-					"description": "选择翻译服务商，设置完请重新打开vscode。"
-				}
-			}
-		},
 		"commands": [
 			{
 				"command": "extension.translate",

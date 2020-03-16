@@ -1,9 +1,8 @@
 import { window, Range, QuickPickItem } from "vscode";
-import Translator from './libs/get-main-translator';
+import {baidu} from 'translation.js';
 import han from './libs/is-han';
 import namingConventions from './libs/naming-conventions';
 import processingTranslationResults from './libs/processing-translation-results';
-import twiceTranslate from './libs/twice-translate';
 import showQuickPick from './libs/show-quick-pick';
 
 export const translate = async () => {
@@ -16,14 +15,12 @@ export const translate = async () => {
   const selections = editor.selections;
   const range = new Range(selections[0].start, selections[selections.length - 1].end);
   const text = editor.document.getText(range) || '';
-  // 首次翻译
-  const translateResult = await Translator.translate(text);
-  // 处理首次翻译结果
-  const processingTranslateResult: string[] = processingTranslationResults(translateResult);
-  // 二次翻译
-  const twiceTranslateResult: QuickPickItem[] = await twiceTranslate(processingTranslateResult);
+  // 翻译
+  const translateResult = await baidu.translate(text);
+  // 处理翻译结果
+  const processingTranslateResult: QuickPickItem[] = processingTranslationResults(translateResult);
   // 选择翻译结果
-  const pickItem: QuickPickItem = await showQuickPick(twiceTranslateResult);
+  const pickItem: QuickPickItem = await showQuickPick(processingTranslateResult);
   // 判断翻译结果是否是汉语 或 翻译结果只有一个单词
   if (han(pickItem.label) || pickItem.label.split(' ').length === 1) {
     // 汉语 或 一个单词
